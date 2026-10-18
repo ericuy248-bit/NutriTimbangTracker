@@ -1,0 +1,59 @@
+id,name,category,preparation,calories,protein,carbs,fat,source_name,source_url,status
+starter:1,"Chicken breast, skinless — Cooked, roasted",Poultry,"Cooked, roasted",165,31.0,0.0,3.6,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:2,"Chicken thigh, skinless — Cooked, roasted",Poultry,"Cooked, roasted",209,26.0,0.0,10.9,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:3,"Chicken drumstick, skinless — Cooked",Poultry,Cooked,175,28.0,0.0,6.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:4,Chicken breast — Raw,Poultry,Raw,120,22.5,0.0,2.6,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:5,Turkey breast — Cooked,Poultry,Cooked,135,29.0,0.0,1.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:6,"Beef, lean — Cooked",Meat,Cooked,215,26.0,0.0,12.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:7,Beef sirloin — Cooked,Meat,Cooked,206,28.0,0.0,9.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:8,"Ground beef, 90% lean — Cooked",Meat,Cooked,217,26.0,0.0,11.8,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:9,Pork loin — Cooked,Meat,Cooked,196,29.0,0.0,7.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:10,Pork shoulder — Cooked,Meat,Cooked,265,25.0,0.0,17.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:11,Pork belly — Raw,Meat,Raw,518,9.3,0.0,53.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:12,"Egg, whole — Boiled",Eggs & dairy,Boiled,155,12.6,1.1,10.6,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:13,Egg white — Cooked,Eggs & dairy,Cooked,52,10.9,0.7,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:14,Egg yolk — Raw,Eggs & dairy,Raw,322,15.9,3.6,26.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:15,"Milk, whole — Plain",Eggs & dairy,Plain,61,3.2,4.8,3.3,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:16,"Milk, skim — Plain",Eggs & dairy,Plain,35,3.4,5.0,0.1,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:17,"Greek yogurt, plain nonfat — Plain",Eggs & dairy,Plain,59,10.0,3.6,0.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:18,Cheddar cheese — Plain,Eggs & dairy,Plain,403,24.9,1.3,33.1,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:19,Tuna — Cooked,Seafood,Cooked,132,28.0,0.0,1.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:20,Tilapia — Cooked,Seafood,Cooked,128,26.0,0.0,2.7,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:21,"Bangus (milkfish) — Cooked, approximate",Seafood,"Cooked, approximate",190,24.0,0.0,10.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:22,Salmon — Cooked,Seafood,Cooked,206,22.0,0.0,12.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:23,Shrimp — Cooked,Seafood,Cooked,99,24.0,0.2,0.3,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:24,"Sardines, canned in oil — Drained",Seafood,Drained,208,25.0,0.0,11.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:25,"Rice, white — Cooked",Rice & grains,Cooked,130,2.7,28.2,0.3,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:26,"Rice, brown — Cooked",Rice & grains,Cooked,123,2.7,25.6,1.0,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:27,Oatmeal — Cooked with water,Rice & grains,Cooked with water,71,2.5,12.0,1.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:28,Oats — Dry,Rice & grains,Dry,389,16.9,66.3,6.9,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:29,White bread — Plain,Rice & grains,Plain,265,9.0,49.0,3.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:30,Whole wheat bread — Plain,Rice & grains,Plain,247,13.0,41.0,4.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:31,Pasta — Cooked,Rice & grains,Cooked,158,5.8,30.9,0.9,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:32,Corn — Boiled,Rice & grains,Boiled,96,3.4,21.0,1.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:33,Potato — Boiled,Root crops,Boiled,87,1.9,20.1,0.1,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:34,Sweet potato (kamote) — Baked,Root crops,Baked,90,2.0,20.7,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:35,Cassava (kamoteng kahoy) — Boiled,Root crops,Boiled,112,0.9,27.8,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:36,Banana — Raw,Fruit,Raw,89,1.1,22.8,0.3,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:37,Mango — Raw,Fruit,Raw,60,0.8,15.0,0.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:38,Papaya — Raw,Fruit,Raw,43,0.5,10.8,0.3,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:39,Apple — Raw,Fruit,Raw,52,0.3,13.8,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:40,Pineapple — Raw,Fruit,Raw,50,0.5,13.1,0.1,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:41,Watermelon — Raw,Fruit,Raw,30,0.6,7.6,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:42,Broccoli — Steamed,Vegetables,Steamed,35,2.4,7.2,0.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:43,Carrot — Raw,Vegetables,Raw,41,0.9,9.6,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:44,Cabbage — Raw,Vegetables,Raw,25,1.3,5.8,0.1,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:45,Spinach — Raw,Vegetables,Raw,23,2.9,3.6,0.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:46,"Kangkong (water spinach) — Raw, approximate",Vegetables,"Raw, approximate",19,2.6,3.1,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:47,Pechay (bok choy) — Raw,Vegetables,Raw,13,1.5,2.2,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:48,Tomato — Raw,Vegetables,Raw,18,0.9,3.9,0.2,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:49,"Tofu, firm — Plain",Plant protein,Plain,144,17.3,2.8,8.7,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:50,Tempeh — Plain,Plant protein,Plain,193,20.3,7.6,10.8,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:51,Lentils — Cooked,Plant protein,Cooked,116,9.0,20.1,0.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:52,Chickpeas — Cooked,Plant protein,Cooked,164,8.9,27.4,2.6,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:53,Red kidney beans — Cooked,Plant protein,Cooked,127,8.7,22.8,0.5,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:54,Peanuts — Dry roasted,Nuts & fats,Dry roasted,587,24.4,21.3,49.7,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:55,Almonds — Raw,Nuts & fats,Raw,579,21.2,21.6,49.9,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:56,Peanut butter — Plain,Nuts & fats,Plain,588,25.1,20.0,50.4,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:57,Olive oil — Plain,Nuts & fats,Plain,884,0,0,100,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
+starter:58,Coconut oil — Plain,Nuts & fats,Plain,892,0,0,99,Illustrative starter estimate (NOT a verified USDA/FNRI food record),https://fdc.nal.usda.gov/food-search,Starter estimate
