@@ -2,10 +2,10 @@
 
 A responsive Streamlit web app combining a **food / macro tracker**, an **adult calorie and protein target estimator**, and a **workout split guide**. Designed for a Philippine audience, but all labels are in English for now.
 
-## What works in version 1
+## What works in version 2
 
 - Home screen with direct navigation to **Food & Nutrition** and **Workout Guide**
-- Searchable 58-food local starter CSV with **calories, protein, carbs, fat per 100 g or 1 g**
+- **26 offline USDA-linked records** with their unique FDC IDs, nutrient values per 100 g and 1 g, preparation details and clickable official source links; plus **58 original example estimates** available by explicit opt-in
 - Build meals with unlimited individual food servings, enter grams, calculate combined totals, remove entries, clear the meal, and export CSV
 - Optional **live official USDA FoodData Central search**, with individual record links and per-100-g nutrients
 - Custom foods for your own recipes and packaged-food labels
@@ -15,7 +15,7 @@ A responsive Streamlit web app combining a **food / macro tracker**, an **adult 
 
 ### Important data integrity and licensing note
 
-**`foods.csv` contains illustrative starter estimates, *not* certified or item-by-item verified USDA/DOH/DOST-FNRI records.** The sample data is meant for demonstrating the calculator; quantities vary by preparation and recipe. Live USDA lookup fetches published food records and provides an item-specific link (FDC ID). The separate DOST–FNRI PhilFCT source is linked as a reference, but its database and logo are not embedded; permission may be needed for republication. Do not relabel the starter file as "official DOH" or "official FNRI." No institution endorses this app.
+**`foods.csv` now contains 26 USDA SR Legacy-linked food entries with individual FoodData Central IDs and specific preparation descriptions.** The rounded per-100-g values were cross-checked against USDA-derived public listings; the official USDA complete archive was not independently downloaded for this package. Follow each official record link to confirm full data. The legacy 58 approximate entries have been separated into `foods_estimates.csv` and are hidden by default. Food composition varies by preparation, brand and recipe. Live USDA lookup can fetch published food records and their item-specific FDC IDs. The separate DOST–FNRI PhilFCT source is linked as a reference, but its database and logo are not embedded; permission may be needed for republication. Do not relabel the starter file as "official DOH" or "official FNRI." No institution endorses this app.
 
 USDA FoodData Central data is [CC0 public domain](https://fdc.nal.usda.gov/api-guide/). The app is suitable for learning and prototyping; it is not medical or dietetic advice.
 
@@ -26,7 +26,8 @@ NutriTimbang/
 ├── app.py                      # Streamlit web interface
 ├── nutrition.py                # Macros, targets and USDA API access
 ├── workouts.py                 # Exercise schedules and training splits
-├── foods.csv                   # 58 illustrative starter foods
+├── foods.csv                   # 26 individually USDA-linked offline foods
+├── foods_estimates.csv         # 58 older unverified estimates; opt-in only
 ├── requirements.txt            # Python dependencies
 ├── .streamlit/
 │   ├── config.toml             # Dark green / midnight app theme
@@ -37,13 +38,28 @@ NutriTimbang/
 └── README.md
 ```
 
+## Update an already-published GitHub / Streamlit app (v1 → v2)
+
+You **do not need to create a new GitHub repository or Streamlit app**. GitHub is the source of your existing deployment.
+
+1. Download and **extract** `NutriTimbang_v2_Update_Files.zip`.
+2. Open your existing NutriTimbang GitHub repository at its **root** (where `app.py` is visible).
+3. Click **Add file → Upload files** and choose the **four extracted files**: `app.py`, `foods.csv`, `foods_estimates.csv`, `README.md`. Uploading an existing filename to the same directory updates that file; `foods_estimates.csv` is newly added.
+4. Review the changed files and use a message such as `Improve nutrition sources and USDA records`, then **Commit changes** to the branch used by your deployed app (normally `main`).
+5. Open your **same** Streamlit link. Streamlit Community Cloud normally picks up the GitHub commit automatically. If your browser shows an old version, refresh the page, and if necessary use the Streamlit menu to clear cache / reboot the app.
+6. Open **Food & Nutrition → Food library**. You should see **26 USDA-linked foods** and direct record links. Check the optional box if you also want to see the old 58 estimates.
+
+If the upload screen does not permit overwriting an existing filename, use the file's **Edit (pencil) → Commit changes** action, or update using GitHub Desktop. **Do not delete your repository, and do not upload the ZIP itself.**
+
+Source dataset: [USDA SR Legacy, April 2018](https://fdc.nal.usda.gov/download-datasets/). [Streamlit automatic deployment updates](https://docs.streamlit.io/deploy/streamlit-community-cloud/manage-your-app/edit-your-app).
+
 ## Step-by-step: upload to GitHub (browser method)
 
 1. **Download and extract** the `NutriTimbang.zip` bundle. It contains a `NutriTimbang` folder.
 2. Log in to [GitHub](https://github.com/). Click **+ → New repository** and name it `NutriTimbang`, or open your existing repository.
 3. If the repository is empty, click **uploading an existing file**. Otherwise use **Add file → Upload files**.
 4. From inside the extracted `NutriTimbang` folder, upload **the contents** to the *root* of your repository, not a second nested NutriTimbang folder. Your app must be at **`app.py` in the root**.
-5. Make sure the repository includes `app.py`, `nutrition.py`, `workouts.py`, `foods.csv`, `requirements.txt`, and `README.md`. Keep `.streamlit/config.toml` in the `.streamlit` directory. **Do not upload any real `secrets.toml` or API key.** GitHub's web upload can hide dotfolders on some systems; if needed, create `.streamlit/config.toml` using **Add file → Create new file** and type the full path as the new file name.
+5. Make sure the repository includes `app.py`, `nutrition.py`, `workouts.py`, **`foods.csv`, `foods_estimates.csv`**, `requirements.txt`, and `README.md`. Keep `.streamlit/config.toml` in the `.streamlit` directory. **Do not upload any real `secrets.toml` or API key.** GitHub's web upload can hide dotfolders on some systems; if needed, create `.streamlit/config.toml` using **Add file → Create new file** and type the full path as the new file name.
 6. Scroll to the bottom, select **Commit changes**, and verify the files are visible.
 
 ## Step-by-step: publish with Streamlit Community Cloud
@@ -61,7 +77,7 @@ Official docs: [Deploy](https://docs.streamlit.io/deploy/streamlit-community-clo
 
 ## Optional: unlock live USDA search at scale
 
-The app will run *without* a personal API key. It defaults to USDA's shared `DEMO_KEY`, which has strict limits; searches may fail after multiple uses. A personal API key is strongly advised for a public deployment.
+The entire default offline food library and tracker run *without* a personal API key. Only the optional **live USDA lookup** uses the demo key or your own key. It defaults to USDA's shared `DEMO_KEY`, which has strict limits; searches may fail after multiple uses. A personal API key is strongly advised for a public deployment.
 
 1. Get a **free API key** from [USDA FoodData Central](https://fdc.nal.usda.gov/api-key-signup/).
 2. In your Streamlit Cloud app's **Settings → Secrets** (or **Advanced settings → Secrets** during deployment), paste:
@@ -93,7 +109,7 @@ For a food with nutrient `N` per 100 g:
 
 `N in your serving = N per 100 g × serving weight in g / 100`
 
-Example: 150 g of **illustrative** cooked chicken breast at 31.0 g protein / 100 g gives **46.5 g protein**. Values vary with cooking and water loss. For consistent entries, weigh foods at the preparation state shown.
+Example: USDA SR Legacy FDC **171477** for roasted, meat-only chicken breast lists about 31.02 g protein per 100 g; 150 g gives **46.53 g protein**. Values vary with cooking and water loss. For consistent entries, weigh foods at the preparation state shown.
 
 ### Personal targets
 
@@ -123,4 +139,4 @@ Research: [Mifflin et al.](https://pubmed.ncbi.nlm.nih.gov/2305711/) · [ISSN po
 
 ## Potential version 2 features
 
-Officially licensed FNRI food records, expanded Filipino recipes, food favorites, barcode lookup, long-term log-in based history, charted progress, adjustable nutrition preferences, program builder, exercise form photos/videos with source and image rights, multi-language support.
+Additional fully source-traced USDA foods, licensed FNRI entries, expanded Filipino recipes, food favorites, barcode lookup, long-term log-in based history, charted progress, adjustable nutrition preferences, program builder, exercise form photos/videos with source and image rights, multi-language support.

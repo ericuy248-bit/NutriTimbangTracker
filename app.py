@@ -58,8 +58,17 @@ footer {visibility:hidden;}
 
 
 @st.cache_data(show_spinner=False)
-def load_foods() -> list[dict]:
+def load_foods(include_unverified: bool = False) -> list[dict]:
+    """Curated USDA-linked records by default; legacy estimates only by opt-in."""
     frame = pd.read_csv(BASE_DIR / "foods.csv").fillna("")
+    if include_unverified:
+        estimates = pd.read_csv(BASE_DIR / "foods_estimates.csv").fillna("")
+        estimates["source_url"] = ""  # a generic search page is not proof of the value
+        estimates["fdc_id"] = ""
+        estimates["usda_description"] = ""
+        frame = pd.concat([frame, estimates], ignore_index=True)
+    # Use text FDC IDs even when legacy rows have blanks; never show 171477.0.
+    frame["fdc_id"] = frame["fdc_id"].astype(str).str.replace(r"\.0$", "", regex=True)
     for field in ("calories", "protein", "carbs", "fat"):
         frame[field] = pd.to_numeric(frame[field], errors="coerce").fillna(0)
     return frame.to_dict("records")
@@ -136,6 +145,7 @@ def add_food(food: dict, grams: float) -> None:
         name=food["name"],
         origin=food.get("status", "Unknown source"),
         source=food.get("source_url", ""),
+        fdc_id=food.get("fdc_id", ""),
     )
     st.session_state.next_meal_id = st.session_state.get("next_meal_id", 0) + 1
     st.session_state.meal.append(row)
@@ -159,7 +169,7 @@ def home() -> None:
         st.markdown(
             '<div class="card"><div class="smallcaps">01 / Nutrition</div>'
             '<div class="card-title">🥗 Food & Nutrition</div>'
-            '<div class="card-copy">Search 58 starter foods or live USDA records, weigh your portions, add multiple foods, and set nutrition goals.</div></div>',
+            '<div class="card-copy">Browse 26 USDA-linked offline foods, weigh several portions, trace their references, and set nutrition goals.</div></div>',
             unsafe_allow_html=True,
         )
         st.button("Open food tracker →", key="home_food", use_container_width=True,
@@ -189,12 +199,13 @@ def home() -> None:
                 f'<div class="card"><div class="card-title">{emoji} {title}</div>'
                 f'<div class="card-copy">{desc}</div></div>', unsafe_allow_html=True
             )
-    st.info("Preview: built-in foods use **illustrative nutrition estimates**, not verified DOH, FNRI, or USDA records. "
-            "Live USDA results show the source record; consult the Sources tab before using nutrition data for research.")
+    st.info("The default offline food list now has **26 entries mapped to specific USDA FoodData Central records**. "
+            "The previous 58 estimates are available only if you choose to include unverified foods. "
+            "Foods still vary by cooking method and product.")
 
 
 def food_library(foods: list[dict]) -> None:
-    subsection("Food library", "Browse approximate values for ready-to-select foods. All values are for the exact preparation stated.")
+    subsection("Food library", "Nutrients per gram or 100 g, with food-specific USDA record IDs and links. Match the preparation before weighing.")
     left, right, third = st.columns([2, 1.4, 1.2])
     phrase = left.text_input("Find a food", placeholder="chicken, pork, rice, bangus...", key="library_filter")
     categories = ["All categories"] + sorted({food["category"] for food in foods})
@@ -210,9 +221,13 @@ def food_library(foods: list[dict]) -> None:
         "Protein (g)": round(f["protein"] * multiplier, 3),
         "Carbs (g)": round(f["carbs"] * multiplier, 3),
         "Fat (g)": round(f["fat"] * multiplier, 3),
-        "Reference search": f["source_url"],
+        "Record ID": f.get("fdc_id", "") if f.get("fdc_id", "") != "" else "—",
+        "Data status": f.get("status", ""),
+        "Publisher / source": f.get("source_name", ""),
+        "USDA food record": f.get("source_url", ""),
     } for f in selected])
-    st.caption(f"{len(selected)} food(s) shown · Starter estimates, not published or independently verified individual source records")
+    verified_count = sum(str(f.get("id", "")).startswith("usda:") for f in selected)
+    st.caption(f"{len(selected)} foods · {verified_count} mapped to USDA FDC IDs · {len(selected)-verified_count} legacy estimates")
     if display.empty:
         st.info("No matches. Try another search.")
     else:
@@ -220,25 +235,23 @@ def food_library(foods: list[dict]) -> None:
             display,
             hide_index=True,
             use_container_width=True,
-            column_config={"Reference search": st.column_config.LinkColumn("Check USDA catalog")},
+            column_config={"USDA food record": st.column_config.LinkColumn("Open source")},
         )
         st.download_button("Download displayed food list (CSV)", data=display.to_csv(index=False),
                            file_name="nutritimbang_food_library.csv", mime="text/csv")
-    st.markdown('<div class="soft-note"><strong>About values:</strong> The starter CSV is a demonstration '
-                'dataset. Values can differ by cut, cooking method, ingredients and brand. '
-                'For traceable, official numbers, use the USDA live search in Meal builder. '
-                'DOST–FNRI PhilFCT is linked in Sources but is not automatically copied into this app.</div>',
-                unsafe_allow_html=True)
+    st.info("USDA-linked foods include a unique FDC ID and source link. Values are rounded from public "
+            "USDA-derived listings, not measurements of your exact meal. Optional older entries are labelled "
+            "'Starter estimate' and have no certified food-specific source. DOST–FNRI content is not copied.")
 
 
 def meal_builder(foods: list[dict]) -> None:
     subsection("Build your meal", "Select multiple foods and enter their weights. Each added serving stays in this browser session.")
     source = st.radio(
         "How would you like to add food?",
-        ["Quick starter library", "Live USDA lookup", "Custom food"],
+        ["Offline food library", "Live USDA lookup", "Custom food"],
         horizontal=True,
     )
-    if source == "Quick starter library":
+    if source == "Offline food library":
         names = {f["id"]: f for f in foods}
         q = st.text_input("Filter options", placeholder="Type chicken, tofu, beef...", key="quick_search")
         ids = [k for k, v in names.items() if q.lower() in v["name"].lower()]
@@ -249,14 +262,24 @@ def meal_builder(foods: list[dict]) -> None:
                 f"Per 1 g: {food['calories']/100:.2f} kcal · "
                 f"{food['protein']/100:.3f} g protein · "
                 f"{food['carbs']/100:.3f} g carbs · "
-                f"{food['fat']/100:.3f} g fat (approximate)"
+                f"{food['fat']/100:.3f} g fat"
             )
+            if str(food.get("id", "")).startswith("usda:"):
+                st.caption(f"USDA FoodData Central · SR Legacy · FDC ID {food['fdc_id']} · "
+                           f"[Open matching source record]({food['source_url']})")
+                with st.expander("Exact source food description"):
+                    st.write(food.get("usda_description", food["name"]))
+                    st.caption("Publicly listed values are rounded to the displayed precision. "
+                               "Cooking oil, sauces and other ingredients are not included unless named in the record.")
+            else:
+                st.warning("Unverified legacy estimate — there is no individual USDA/FNRI reference for these numbers. "
+                           "Use an official record or your product label for stronger evidence.")
             grams = st.number_input("Weight of your portion (g)", min_value=1.0, max_value=10000.0,
                                     value=100.0, step=5.0, key="quick_grams")
             if st.button("＋ Add serving to meal", type="primary", key="add_quick"):
                 add_food(food, grams)
         else:
-            st.info("No matches in starter foods. Try USDA search or enter a custom food.")
+            st.info("No matching offline foods. Enable legacy estimates, try USDA search, or enter a custom food.")
     elif source == "Live USDA lookup":
         st.caption("Official USDA FoodData Central: Foundation Foods, SR Legacy, and FNDDS. Requires internet access. "
                    "Uses a low-limit DEMO_KEY unless you configure your own free API key.")
@@ -436,9 +459,9 @@ def fitness_calculator() -> None:
 
 
 def sources() -> None:
-    subsection("Data sources & credits", "Every official live USDA food added to a meal links back to its unique record.")
+    subsection("Data sources & credits", "Each curated offline food and official live USDA food links to a unique FDC record.")
     st.markdown("""
-**USDA FoodData Central — live searchable records**  
+**USDA FoodData Central — curated offline and live searchable records**  
 [FoodData Central](https://fdc.nal.usda.gov/food-search) · [API guide](https://fdc.nal.usda.gov/api-guide/) · [API key](https://fdc.nal.usda.gov/api-key-signup/)  
 U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. Data are published under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
@@ -453,8 +476,11 @@ A public-health reference, **not the attributed source of the starter CSV**. The
 **Fitness calculations and protein recommendations**  
 [Mifflin–St Jeor research paper](https://pubmed.ncbi.nlm.nih.gov/2305711/) · [ISSN protein position stand](https://pubmed.ncbi.nlm.nih.gov/28642676/) · [NIH/NIDDK adult body weight planner](https://www.niddk.nih.gov/health-information/weight-management/body-weight-planner)
 
-**Starter CSV disclaimer**  
-The included 58 foods are illustrative common-food estimates that have **not been independently matched and verified to individual USDA or FNRI records**. The Food library's reference link lets you compare values manually. For reproducible analysis, search USDA live and use individual FDC IDs. Values for recipes and mixed dishes depend on ingredients and preparation.
+**Offline food library (v2)**  
+The default `foods.csv` contains **26 USDA SR Legacy-associated entries**, each with its specific FoodData Central ID, detailed food description and official link. The rounded macronutrients were cross-checked against public USDA-derived listings; we did **not** download USDA's full official archive directly when preparing this package. Confirm the original linked record for high-stakes use. USDA's SR Legacy is a 2018 final release, so it is not newly sampled 2026 nutrition data. [USDA downloadable datasets](https://fdc.nal.usda.gov/download-datasets/).
+
+**Previous sample estimates, optional**  
+The old 58 entries now live in `foods_estimates.csv`. They are **not individual USDA or DOST–FNRI-backed records**, are hidden by default, and become visible only if you check the explicit unverified-food option. Generic lookup-page links have been removed to avoid suggesting that they verify the numbers. Food names, ingredients, preparation and brand affect actual nutrition.
 
 **Affiliation and logos**  
 NutriTimbang is an independent learning project. USDA, DOH, and DOST–FNRI do **not** sponsor, certify or endorse this app. Their official logos are not used.
@@ -464,8 +490,15 @@ NutriTimbang is an independent learning project. USDA, DOH, and DOST–FNRI do *
 def nutrition_page() -> None:
     st.markdown('<div class="smallcaps">NUTRITION / EAT WELL</div>', unsafe_allow_html=True)
     st.title("🥗 Food & Nutrition")
-    foods = load_foods()
+    show_estimates = st.checkbox(
+        "Also show 58 unverified sample foods (not source-backed)",
+        value=False,
+        help="Default: 26 USDA-indexed food references. If enabled, older approximate values are also offered and labelled as estimates.",
+    )
+    foods = load_foods(show_estimates)
     tabs = st.tabs(["🍽️ Meal builder", "📚 Food library", "🎯 My targets", "🔗 Sources & credits"])
+    st.caption(f"Offline foods available: {len(foods)} · "
+               "No API key is needed for the offline foods or workout guide.")
     with tabs[0]:
         meal_builder(foods)
     with tabs[1]:
